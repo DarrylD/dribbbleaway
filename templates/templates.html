@@ -1,0 +1,257 @@
+<script type="text/template" id="notification-tpl">
+    <div class="notification">
+        <div class="notification-close">X</div>
+        <div class="notification-body">
+            <span class="notification-label">viewing: </span> 
+            <span class="notification-category">{{= title}}</span> 
+            {{ if(count){ }}
+                <span class="notification-category-count">{{= count}}</span> 
+            {{  } }}
+        </div>
+    </div>
+</script>
+
+<script type="text/template" id="header-tpl">
+    <div class="header-row header-top">
+        <div class="mobile-menu left setting-menu-panel"><span class="icon-menu"></span></div>
+        <div class="title-container">
+            <h1 class="page-title" data-shadow-text="Dribbble Away">Dribbble Away</h1>
+        </div>
+        <div class="mobile-menu right category-menu-panel"><span class="icon-drawer"></span></div>
+    </div>
+    <div class="header-row header-bottom">
+        <!--<div class="mobile-menu mobile-menu-search">S</div>-->
+        <div class="search-container"></div>
+    </div>
+</script>
+
+<script type="text/template" id="shot-favorite-tpl">
+    <img class="hide shot-image" src="{{= image }}" alt="">
+    <div class="shot-image-container" style="height:{{= shotHeight}};">
+        <div class="shot-overlay">
+            <div class="shot-overlay-choice" data-choice="info">
+                <span class="icon-info shot-choice-icon"></span>
+            </div>
+            <div class="shot-overlay-choice shot-overlay-choice-trigger shot-overlay-choice-favorite" data-choice="favorite">
+                <span class="icon-heart shot-choice-icon"></span>
+            </div>
+            <div class="shot-overlay-choice shot-overlay-choice-trigger shot-overlay-choice-unfavorite" data-choice="unfavorite">
+                <span class="icon-heart-broken shot-choice-icon"></span>
+            </div>
+        </div>
+        <div class="shot-info">
+            <div class="shot-info-row">{{= title }}</div>
+            <div class="shot-info-row"><span class="icon-user shot-info-icon"></span>{{= author }}</div>
+            <div class="shot-info-row"><span class="icon-eye shot-info-icon"></span>{{= views }}</div>
+            <div class="shot-info-row"><span class="icon-heart shot-info-icon"></span>{{= likes }}</div>
+            <div class="shot-info-row"><span class="icon-comment shot-info-icon"></span>{{= comments }}</div>
+            <div class="shot-info-row"> <a class="shot-info-link" href="{{= short_url }}" target="_blank">Visit page</a></div>
+        </div>
+        <div class="shot-image" data-src="{{= image }}" style="background-image:url({{= image }});" alt=""></div>
+    </div>
+
+    <div class="shot-actions">
+        <a href="#" class="left shot-button shot-unfavorite"> Favorited </a>
+        <a href="#" class="right shot-button shot-list">
+        {{ if( categories.length > 0 ){ }}
+            Edit Categories
+        {{  }else{  }}
+            Add to Category
+        {{  }  }}
+        </a>
+    </div>
+    <div class="shot-shadow no-mobile-show"></div>
+</script>
+
+<script type="text/template" id="shot-tpl">
+    <div class="four columns shot {{= favorited ? 'favorited' : 'unfavorited' }}" data-shotid="{{=id}}" >
+        <div class="shot-image-container" style="height:{{= shotHeight}};">
+            <div class="shot-overlay">
+                <div class="shot-overlay-choice" data-choice="info">
+                    <span class="icon-info shot-choice-icon"></span>
+                </div>
+                <div class="shot-overlay-choice shot-overlay-choice-trigger shot-overlay-choice-favorite" data-choice="favorite">
+                    <span class="icon-heart shot-choice-icon"></span>
+                </div>
+                <div class="shot-overlay-choice shot-overlay-choice-trigger shot-overlay-choice-unfavorite" data-choice="unfavorite">
+                    <span class="icon-heart-broken shot-choice-icon"></span>
+                </div>
+            </div>
+            <div class="shot-info">
+                <div class="shot-info-row">{{= title }}</div>
+                <div class="shot-info-row"><span class="icon-user shot-info-icon"></span>{{= player.name }}</div>
+                <div class="shot-info-row"><span class="icon-eye shot-info-icon"></span>{{= views_count }}</div>
+                <div class="shot-info-row"><span class="icon-heart shot-info-icon"></span>{{= likes_count }}</div>
+                <div class="shot-info-row"><span class="icon-comment shot-info-icon"></span>{{= comments_count }}</div>
+                <div class="shot-info-row"> <a class="shot-info-link" href="{{= short_url }}" target="_blank">Visit page</a></div>
+            </div>
+            <div class="shot-image lazy" data-src="{{= image }}" alt=""></div>
+            <!--<img class="shot-image" height="264" src="{{= image_teaser_url }}" alt="">-->
+        </div>
+        <div class="shot-actions">
+            <a href="#" class="left shot-button shot-unfavorite">Favorited</b></a>
+            <a href="#" class="right shot-button shot-list">
+            {{ if( categories ){ }}
+                Edit Categories
+            {{  }else{  }}
+                Add to Category
+            {{  }  }}
+            </a>
+            <a href="#" class="left shot-button shot-favorite">Favorite</a>
+        </div>
+    </div>
+</script>
+
+<script type="text/template" id="category-modal-template">
+    <div class="modal five columns">
+        <div class="modal-header">
+            <h3 class="modal-title">Categorize</h3>
+            <div class="modal-close"><span class="icon-close"></span></div>
+        </div>
+        <img class="hide modal-image" src="{{=model.image_teaser_url}}" />
+        <div class="modal-body">
+            <div class="modal-create-list">
+                <input class="modal-list-input" type="text" placeholder="Create new list">
+                <a class="modal-list-add"><span class="icon-plus"></a>
+            </div>
+
+            <ul class="list-categories">
+                {{  _.each(categories, function(category){ }}                            
+                      <li class="list-category" data-list="{{= category.attributes.name}}">{{= category.attributes.name}}</li>
+                {{ }) }}
+            </ul>
+
+            <div class="modal-actions">
+                <a href="#" class="left modal-button modal-shot-remove">Un-Favorite</a>
+                <a href="#" class="right modal-button modal-shot-save">Save</a>
+            </div>  
+        </div>
+    </div>
+</script>
+
+<script type="text/template" id="moreinfo-modal-template">
+    <div class="modal five columns {{= favorited ? 'favorited' : 'unfavorited' }}">
+        <div class="modal-header">
+            <h3 class="modal-title">More Info</h3>
+            <div class="modal-close"><span class="icon-close"></span></div>
+        </div>
+        <img class="modal-image" src="{{= image_url }}" />
+        <!--
+        <div class="shot-actions">
+            <a href="#" class="left shot-button shot-unfavorite">Favorited</b></a>
+            <a href="#" class="right shot-button shot-list">
+            {{ if( categories ){ }}
+                Edit Categories
+            {{  }else{  }}
+                Add to Category
+            {{  }  }}
+            </a>
+            <a href="#" class="left shot-button shot-favorite">Favorite</a>
+        </div>
+        -->
+        <div class="modal-body">
+             <div class="shot-info">
+                <div class="shot-info-row">{{= title }}</div>
+                <div class="shot-info-row"><span class="icon-user shot-info-icon"></span>{{= player.name }}</div>
+                <div class="shot-info-row"><span class="icon-eye shot-info-icon"></span>{{= views_count }}</div>
+                <div class="shot-info-row"><span class="icon-heart shot-info-icon"></span>{{= likes_count }}</div>
+                <div class="shot-info-row"><span class="icon-comment shot-info-icon"></span>{{= comments_count }}</div>
+                <div class="shot-info-row"> <a class="shot-info-link" href="{{= short_url }}" target="_blank">Visit page</a></div>
+            </div>
+            
+        </div>
+    </div>
+</script>
+
+<script type="text/template" id="category-panel-tpl">
+    <div class="side-panel-header">
+        <div class="side-panel-button side-panel-close"><span class="icon-close"></span></div>
+        <div class="side-panel-title">Categories</div>
+        <div class="side-panel-button side-panel-edit"><span class="icon-pencil"></span></div>
+    </div>
+    <div class="side-panel-body">
+        <div class="side-panel-create-list">
+            <input class="side-panel-list-input" type="text" placeholder="Create new list">
+            <a class="side-panel-input-button side-panel-list-add"><span class="icon-plus"></a>
+        </div>
+        <ul class="list-categories">
+            {{  _.each(categories, function(category){ }}                            
+                  <li class="list-category list-category-trigger" data-list="{{= category.attributes.name}}">
+                  <span class="list-category-delete icon-close"></span>
+                  <span class="list-category-name">{{= category.attributes.name}}</span>
+                  <span class="list-category-count"></span>
+                  </li>
+            {{ }) }}
+        </ul>
+    </div>
+</script>
+
+<script type="text/template" id="setting-panel-tpl">
+    <div class="side-panel-header">
+        <div class="side-panel-button side-panel-close"><span class="icon-close"></div>
+        <div class="side-panel-title">Menu</div>
+    </div>
+    <div class="side-panel-body">
+        <div class="side-panel-create-list">
+            <input class="side-panel-list-input" type="text" disabled placeholder="Search coming soon...">
+            <a class="side-panel-input-button side-panel-search"><span class="icon-search"></span></a>
+        </div>
+
+        <div class="panel-section">
+            <div class="panel-section-title">Filtering</div>
+            <div class="panel-section-body panel-section-filter">
+                <div class="panel-section-button panel-button-filter" data-filter="everyone">Everybody</div>  
+                <div class="panel-section-button panel-button-filter middle" data-filter="debuts">Debuts</div>  
+                <div class="panel-section-button panel-button-filter" data-filter="popular">Popular</div>  
+            </div>
+        </div>
+
+        <div class="panel-section">
+            <div class="panel-section-title">Image quality</div>
+            <div class="panel-section-body panel-section-quality">
+                <div class="panel-section-button panel-button-quality right-border" data-filter="image_url">Hi Res</div>  
+                <div class="panel-section-button panel-button-quality" data-filter="image_teaser_url">Low Res</div>  
+            </div>
+        </div>
+
+        <div class="panel-section">
+            <div class="panel-section-title">Grid size</div>
+            <div class="panel-section-body panel-section-grid">
+                <div class="panel-section-button panel-button-grid" data-filter="1"><span class="icon-1grid"></span></div>  
+                <div class="panel-section-button panel-button-grid middle" data-filter="2"><span class="icon-2grid"></span></div>  
+                <div class="panel-section-button panel-button-grid" data-filter="3"><span class="icon-3grid"></span></div>  
+            </div>
+        </div>
+        <div class="panel-section">
+            <div class="panel-section-title">Social</div>
+            <div class="panel-section-body panel-section-social">
+
+                <div class="panel-section-row panel-social-button">
+                    <div id="fb-root"></div>
+                    <div class="fb-like" data-href="https://dribbbleaway.com" data-layout="box_count" data-action="like" data-show-faces="false" data-share="true"></div>
+                </div>
+                <div class="panel-section-row panel-social-button">
+                    <div class="g-plusone" data-size="tall"></div>
+                </div>
+                <div class="panel-section-row panel-social-button">
+                    <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://dribbbleaway.com" data-size="large" data-hashtags="dribbbleaway">Tweet</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-section">
+            <div class="panel-section-title"></div>
+            <div class="panel-section-body panel-section-settings">
+                <div class="panel-section-button panel-button-clear">Clear All Settings</div>
+            </div>
+        </div>
+
+        <div class="panel-section">
+            <div class="panel-section-body panel-section-footer">
+                <div class="panel-section-footer-text left">© 2014 Dribbble Away </div>
+                <div class="panel-section-footer-text right">Crafted by <a class="panel-section-footer-link" href="http://bit.ly/1if5Ffb">Darryl D</a></div>
+            </div>
+        </div>
+        
+    </div>
+</script>

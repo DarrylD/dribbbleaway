@@ -1,0 +1,121 @@
+@font-face {
+	font-family: 'icomoon';
+	src:url('fonts/icomoon.eot?o4yxai');
+	src:url('fonts/icomoon.eot?#iefixo4yxai') format('embedded-opentype'),
+		url('fonts/icomoon.woff?o4yxai') format('woff'),
+		url('fonts/icomoon.ttf?o4yxai') format('truetype'),
+		url('fonts/icomoon.svg?o4yxai#icomoon') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+	font-family: 'icomoon';
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+
+	/* Better Font Rendering =========== */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.icon-calendar:before {
+	content: "\e600";
+}
+.icon-calendar2:before {
+	content: "\e602";
+}
+.icon-glass:before {
+	content: "\e604";
+}
+.icon-trash:before {
+	content: "\e607";
+}
+.icon-envelope:before {
+	content: "\e60c";
+}
+.icon-menu:before {
+	content: "\e609";
+}
+.icon-1grid:before {
+	content: "\e613";
+}
+.icon-2grid:before {
+	content: "\e614";
+}
+.icon-3grid:before {
+	content: "\e615";
+}
+.icon-comment:before {
+	content: "\e617";
+}
+.icon-clock:before {
+	content: "\e603";
+}
+.icon-tv:before {
+	content: "\e605";
+}
+.icon-maps:before {
+	content: "\e606";
+}
+.icon-pencil:before {
+	content: "\e608";
+}
+.icon-sun:before {
+	content: "\e601";
+}
+.icon-facebook:before {
+	content: "\e60d";
+}
+.icon-twitter:before {
+	content: "\e60e";
+}
+.icon-email:before {
+	content: "\e60f";
+}
+.icon-settings5:before {
+	content: "\e60a";
+}
+.icon-equalizer:before {
+	content: "\e60b";
+}
+.icon-drawer:before {
+	content: "\e610";
+}
+.icon-close:before {
+	content: "\e611";
+}
+.icon-search:before {
+	content: "\e612";
+}
+.icon-plus:before {
+	content: "\e616";
+}
+.icon-eye:before {
+	content: "\e618";
+}
+.icon-heart:before {
+	content: "\e619";
+}
+.icon-user:before {
+	content: "\e61a";
+}
+.icon-info:before {
+	content: "\e61b";
+}
+.icon-heart-broken:before {
+	content: "\e61c";
+}
+.icon-coffee:before {
+	content: "\e61d";
+}
+.icon-music:before {
+	content: "\e61f";
+}
+.icon-mug:before {
+	content: "\e61e";
+}
