@@ -130,6 +130,8 @@ DRIB_MODULE = (function(){
         },
         componentDidMount: function(){
             this.render()
+
+            this.stickyHeader()
         },
         render: function(){
             // var rendered = this.template()
@@ -172,7 +174,7 @@ DRIB_MODULE = (function(){
         },
         stickyHeader: function(){
             var triggerElement = $(".container") //element to he used to trigger the fixed header
-              , header = this.el //element of header, native js for perf on mobile
+              , header = this.el() //element of header, native js for perf on mobile
               , stickyClass = "stuck" // class to be used to give the fixed header a fixed position
 
             $(window).scroll(function(){
