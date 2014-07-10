@@ -15,13 +15,13 @@ DRIB_MODULE = (function(){
         },
         initialize: function(){
             this.on("create", function(model){
-                console.log('Created Favorite') 
+                console.log('Created Favorite')
             })
             this.on("change", function(model){
-                console.log('Favorite Changes') 
+                console.log('Favorite Changes')
             })
             this.on("error", function(model, error){
-                console.log(error) 
+                console.log(error)
             })
         }
     })
@@ -32,13 +32,13 @@ DRIB_MODULE = (function(){
         },
         initialize: function(){
             this.on("create", function(model){
-                console.log('Created Category') 
+                console.log('Created Category')
             })
             this.on("change", function(model){
-                console.log('Category Changes') 
+                console.log('Category Changes')
             })
             this.on("error", function(model, error){
-                console.log(error) 
+                console.log(error)
             })
         }
     })
@@ -79,7 +79,7 @@ DRIB_MODULE = (function(){
             rendered = this.template( this.model.toJSON() )
 
             $(this.el).html( rendered )
-            
+
             return this //awe shit, we chaniable
         },
         unfavorite: function(){
@@ -93,7 +93,7 @@ DRIB_MODULE = (function(){
         },
         editList: function(){
             //make this a help method, send model info to is
-            
+
             //helper avaiable and should consider using it, but may be less expensive
             //to no use it
             DRIB.views.categoryModal = new CategoryModal({ 
@@ -108,8 +108,8 @@ DRIB_MODULE = (function(){
         }
     })
 
-    var HeaderView = Backbone.View.extend({
-        el: '.header',
+    var HeaderView = React.createBackboneClass({
+        // el: '.header',
         template: _.template( $('#header-tpl').html() ),
         events: {
             "click .category-menu-panel" : "CategoryTogglePanel",
@@ -119,7 +119,7 @@ DRIB_MODULE = (function(){
         // consider making this a plugin with a better syntax...
         // http://stackoverflow.com/a/8400852/240993
         // events: function() {
-        //     var _events = { } // regular events can be here 
+        //     var _events = { } // regular events can be here
         //     _events[DRIB.helper.clickevent + " .category-menu-panel"] = "CategoryTogglePanel";
         //     _events[DRIB.helper.clickevent + " .setting-menu-panel"] = "SettingTogglePanel";
 
@@ -128,14 +128,41 @@ DRIB_MODULE = (function(){
         initialize: function(){
             this.render()
         },
+        componentDidMount: function(){
+            this.render()
+        },
         render: function(){
-            var rendered = this.template()
+            // var rendered = this.template()
 
-            $(this.el).html( rendered )
+            // $(this.el).html( rendered )
 
-            this.stickyHeader()
+            // this.stickyHeader()
 
-            return this //awe shit, we chaniable
+            // return this //awe shit, we chaniable
+            return React.DOM.div({className: "header-row header-top"}, [
+		           		React.DOM.div({className: "mobile-menu left setting-menu-panel", onClick: this.SettingTogglePanel},  [
+		           			React.DOM.span({className: "icon-menu"})
+		           
+
+		            	]),
+
+		            	React.DOM.div({className: "title-container"}, [
+		           			React.DOM.h1({className: "page-title"}, 'Dribbble Away')
+		           
+
+		            	]),
+
+		            	React.DOM.div({className: "mobile-menu right category-menu-panel", onClick: this.CategoryTogglePanel},  [
+		           			React.DOM.span({className: "icon-drawer"})
+		           
+
+		            	])
+		        	],
+		        	React.DOM.div({className: "header-row header-bottom"},[
+		        		React.DOM.div({className: "search-container"})
+
+		        	])
+		        )
         },
         CategoryTogglePanel: function(){
              Backbone.trigger('panel/toggle/category');
@@ -147,8 +174,8 @@ DRIB_MODULE = (function(){
             var triggerElement = $(".container") //element to he used to trigger the fixed header
               , header = this.el //element of header, native js for perf on mobile
               , stickyClass = "stuck" // class to be used to give the fixed header a fixed position
-         
-            $(window).scroll(function(){ 
+
+            $(window).scroll(function(){
                 var offset = 0,sticky = false,top = $(window).scrollTop();
                 if (triggerElement.offset().top < top){
                     header.classList.add(stickyClass)
@@ -162,6 +189,8 @@ DRIB_MODULE = (function(){
         }
     })
 
+
+
     var BasePanelView = Backbone.View.extend({
         toggle: function(){
             var self = this
@@ -174,7 +203,7 @@ DRIB_MODULE = (function(){
 
             //show the overlay after the transiton of the panel to prevent spotty animation
             //from both the elements moving at the same time on mobile
-            var afterAnimation =  function(event) { 
+            var afterAnimation =  function(event) {
                 //prevent firing twice issue from having multiple transitions
                 //http://stackoverflow.com/a/6328170/240993
                 event.stopPropagation();
@@ -215,7 +244,7 @@ DRIB_MODULE = (function(){
         },
         initialize: function(){
             this.parent = this.options.parent
-            this.listHeight = null //will hold the height of ul on initial load for re-rendering 
+            this.listHeight = null //will hold the height of ul on initial load for re-rendering
 
             //WEIRD SHIT ALERT!!!
             //for some reason bind all is neede to grab this view
@@ -231,7 +260,7 @@ DRIB_MODULE = (function(){
             $(this.el).html( rendered )
             this.correctListHeight()
             this.categoryCount()
-            
+
             this.viewAll()// a special li elem to be added
 
             return this //awe shit, we chaniable
@@ -242,7 +271,7 @@ DRIB_MODULE = (function(){
 
             ul.prepend(li)
         },
-        correctListHeight: function(){ 
+        correctListHeight: function(){
            //since 100% height dont work, we need to do it manually
             var that = this
               , noHeightRendered = this.listHeight === null || this.listHeight === -50
@@ -256,7 +285,7 @@ DRIB_MODULE = (function(){
             }else{
                 height = this.listHeight
             }
-            
+
             this.$('.list-categories').css('height', height)
         },
         fetchRender: function(){
@@ -275,7 +304,7 @@ DRIB_MODULE = (function(){
                 //do stuff for failing to fetch
             })
 
-            //dev purposes for zepto since it doesnt have $.when natively... 
+            //dev purposes for zepto since it doesnt have $.when natively...
             // DRIB.collections.categoryCollection.fetch({
             //     success: function(){
             //         that.categories = DRIB.collections.categoryCollection.models
@@ -285,10 +314,10 @@ DRIB_MODULE = (function(){
             // })
         },
         addCategory: function() { //maybe make this a helper
-            var model = this.options.modelInfo 
+            var model = this.options.modelInfo
               , categoryInput = this.$('.side-panel-list-input')
               , newCategoryName = categoryInput.val()
-            
+
             //add that cat...
             if(newCategoryName.length > 0){//check to ensure its shit there
                 DRIB.collections.categoryCollection.create({
@@ -301,8 +330,8 @@ DRIB_MODULE = (function(){
             //we need to fetch shit before we render shit
             this.fetchRender()
 
-            return false 
-        }, 
+            return false
+        },
         removeCategory: function(e){//refactor...
             var categoryElement = e.currentTarget.parentElement
               , categoryName = categoryElement.getAttribute('data-list')
@@ -338,8 +367,8 @@ DRIB_MODULE = (function(){
             //make condition to check and see if the category is being shown, then update like so
             if( currentlyActive ){
                 DRIB.helper.trigger('category/hide')
-            } 
-            
+            }
+
             //stop the parent el from firing editCategory
             e.stopPropagation()
         },
@@ -370,15 +399,15 @@ DRIB_MODULE = (function(){
                 //used bind() just to be fancy, isnt support everywhere though
 
                 //check to see if its in edit mode
-                //  if so, 
+                //  if so,
                 this.render()
                 if( this.$el.hasClass('edit-mode') ) this.toggleCategoryTriggers()
 
                 //make condition to check and see if the category is being shown, then update like so
                 if( currentlyActive ){
                     DRIB.helper.trigger('notification/update/name', newCategoryName)
-                } 
-                
+                }
+
                 console.log('named? changed...')
             }.bind(this)
 
@@ -394,12 +423,12 @@ DRIB_MODULE = (function(){
               , that = this
 
             //turn on edit mode
-            if( notInEditMode ){ 
+            if( notInEditMode ){
                 that.el.classList.add('edit-mode')//class to show the close icons
 
                 //remove the .list-category-trigger from li elements so they wont trigger event
                 //this is easier then undelegating the events
-                this.toggleCategoryTriggers()  
+                this.toggleCategoryTriggers()
 
             }else{//off it goes
                 that.el.classList.remove('edit-mode')
@@ -433,8 +462,8 @@ DRIB_MODULE = (function(){
                         count++
                     }
                 })
-                //add this number to the 
-                list.attr('data-count', count).find('.list-category-count').text(count) 
+                //add this number to the
+                list.attr('data-count', count).find('.list-category-count').text(count)
             };
         },
         showCategory: function(e){
@@ -468,7 +497,7 @@ DRIB_MODULE = (function(){
             this.parent = this.options.parent
 
             //this can be used for the recent searches
-            this.listHeight = null //will hold the height of ul on initial load for re-rendering 
+            this.listHeight = null //will hold the height of ul on initial load for re-rendering
 
             //WEIRD SHIT ALERT!!!
             //for some reason bind all is neede to grab this view
@@ -500,7 +529,7 @@ DRIB_MODULE = (function(){
             this.gridSize()
         },
         filtering: function(){//could be merged with imageQuality/filtering
-            var storedValue = localStorage.getItem('DRIB-setting-shotlist') 
+            var storedValue = localStorage.getItem('DRIB-setting-shotlist')
 
             //check localstorage for a setting
             if ( storedValue !== null ){ //if stored filter is avail
@@ -546,7 +575,7 @@ DRIB_MODULE = (function(){
             localStorage.setItem('DRIB-setting-shotImage', data)
             //use this for not but
             //think of a way to go through all the loaded raw shots and load the hi res
-            //or 
+            //or
             //reload them all...
 
             // DRIB.helper.trigger('shots/quality', data)
@@ -589,13 +618,13 @@ DRIB_MODULE = (function(){
                 //may need to modify grab shots function
                 //
         },
-        correctListHeight: function(){ 
+        correctListHeight: function(){
             //since 100% height dont work, we need to do it manually
             var height
 
             //when the browser keyboard bar comes up, it fucks the viewport, this will grab the initial height
             //so the height will be unfuckwitable!
-            if( this.listHeight === null ){//check 
+            if( this.listHeight === null ){//check
                 height = $('.side-panel').height() - $('.side-panel-header').height() - $('.side-panel-create-list').height()+50
                 this.listHeight = height//set the initial ul height
             }else{
@@ -646,11 +675,11 @@ DRIB_MODULE = (function(){
         },
         template: _.template( $('#category-modal-template').html() ),
         initialize: function() {
-            this.listHeight = null //will hold the height of ul on initial load for re-rendering 
+            this.listHeight = null //will hold the height of ul on initial load for re-rendering
             // $('body').addClass('overlay-open')
             DRIB.helper.trigger('overlay','on', this)
             //dev purposes: info from the model
-            //console.log(this.options.modelInfo) 
+            //console.log(this.options.modelInfo)
 
             //fetch or refresh the category collection here
             //no need to fetch it on itial render
@@ -683,7 +712,7 @@ DRIB_MODULE = (function(){
 
             return this;
         },
-        correctListHeight: function(){ 
+        correctListHeight: function(){
             var noHeightRendered = this.listHeight === null || this.listHeight === -50
               , that = this
               , height
@@ -713,7 +742,7 @@ DRIB_MODULE = (function(){
         },
         unfavorite: function() {
             this.options.modelInfo.destroy() //click, click, bang! dead model
-            
+
             if( this.options.rawviewInfo ){
                 this.options.viewInfo.$el.remove() //remove that shot el. pow!
             }else{
@@ -721,16 +750,16 @@ DRIB_MODULE = (function(){
                 //we need to remove the fav class to revent back to regular raw shot
                 this.options.rawViewInfo.removeClass('favorited').addClass('unfavorited')
             }
-            
+
             this.close()  //close modal
 
             return false
-        }, 
+        },
         addCategory: function() {
-            var model = this.options.modelInfo 
+            var model = this.options.modelInfo
               , categoryInput = $('.modal-list-input')
               , newCategoryName = categoryInput.val()
-            
+
             //add that cat...
             if(newCategoryName.length > 0){//check to ensure its shit there
                 DRIB.collections.categoryCollection.create({
@@ -745,20 +774,20 @@ DRIB_MODULE = (function(){
 
             this.correctListHeight()
 
-            return false 
-        }, 
+            return false
+        },
         selectCategory: function(e) {
-           var model = this.options.modelInfo 
+           var model = this.options.modelInfo
              , category = $(e.currentTarget)
-             , categoryValue = category.data('list') 
+             , categoryValue = category.data('list')
 
            category.toggleClass('active')
-           //todo: add css animations 
-                  
-           return false    
+           //todo: add css animations
+
+           return false
         },
         saveShot: function() {
-            var model = this.options.modelInfo 
+            var model = this.options.modelInfo
               , selectedCategories = this.$('.active')
               , categoriesToSave = []
 
@@ -774,7 +803,7 @@ DRIB_MODULE = (function(){
             model.set('categories',categoriesToSave)
             model.save()
 
-            //-re-render the shot view to see the change in action link verbiage 
+            //-re-render the shot view to see the change in action link verbiage
             if ( this.options.viewInfo ){
                 this.options.viewInfo.render()
             }else if( this.options.rawViewInfo ){
@@ -793,13 +822,13 @@ DRIB_MODULE = (function(){
                 categoryButton.text(buttonContext)
             }
 
-            //do some fancy animation here 
-            this.close()  
+            //do some fancy animation here
+            this.close()
 
-           return false    
+           return false
         },
         show: function() {
-           //do some fancy animation here     
+           //do some fancy animation here
         },
         close: function() {
             this.remove()
@@ -819,7 +848,7 @@ DRIB_MODULE = (function(){
         },
         template: _.template( $('#moreinfo-modal-template').html() ),
         initialize: function() {
-            
+
             DRIB.helper.trigger('overlay','on', this)
 
             //if its a view model, change up some fields because we're lazy
@@ -844,7 +873,7 @@ DRIB_MODULE = (function(){
             }else{
                 info.favorited = false
             }
-            
+
             rendered = this.template( info )
 
             $(this.el).html( rendered )
@@ -862,7 +891,7 @@ DRIB_MODULE = (function(){
             clickToFavotite(e)
         },
         show: function() {
-           //do some fancy animation here     
+           //do some fancy animation here
         },
         close: function() {
             this.remove()
@@ -871,8 +900,8 @@ DRIB_MODULE = (function(){
         }
     });
 
-    var ShotCollectionView = Backbone.View.extend({ 
-        className: 'shots', 
+    var ShotCollectionView = Backbone.View.extend({
+        className: 'shots',
         initialize: function(){
             _.bindAll(this, 'render')
             //re render the collection view per every event that happens
@@ -905,7 +934,7 @@ DRIB_MODULE = (function(){
             //if notification is there, we will the number
             if( $('.notification').html() ){
                 DRIB.helper.trigger('notification/update/count', count)
-            } 
+            }
         }
     })
 
@@ -921,14 +950,19 @@ DRIB_MODULE = (function(){
             //to have access to its moms!
             DRIB.views.headerView = this.headerView = new HeaderView({parent: this})
 
+            React.renderComponent(DRIB.views.headerView, $(".header")[0]);
+
+            //overriding the $el because react isnt dont give it to us
+            DRIB.views.headerView.$el = $(DRIB.views.headerView.el())
+
             DRIB.views.categoryPanelView = this.categoryPanelView = new CategoryPanelView({parent: this})
 
             DRIB.views.settingPanelView = this.settingPanelView = new SettingPanelView({parent: this})
-            
+
             //init today, tomorrow and past collection views
             DRIB.collectionViews = {
-                shotCollectionView: this.shotCollectionView = new ShotCollectionView({ 
-                    collection:this.shotCollection //just in case 
+                shotCollectionView: this.shotCollectionView = new ShotCollectionView({
+                    collection:this.shotCollection //just in case
                 })
             }
         },
@@ -964,7 +998,7 @@ DRIB_MODULE = (function(){
                 DRIB.collections.shotCollection.fetch()
             )
             .done(function(){
-                
+
             })
             .fail(function(){
                 //do stuff for failing to fetch
@@ -975,7 +1009,7 @@ DRIB_MODULE = (function(){
         },
         home: function(){
             //stuff here for home
-        } 
+        }
     })
 
     //load the shots to the page after the ajax call
@@ -994,7 +1028,7 @@ DRIB_MODULE = (function(){
           , shotCollection = DRIB.collections.shotCollection
           , favoriteIdArray =  DRIB.collections.shotCollection.pluck('shotId')
           , imageQuality = localStorage.getItem('DRIB-setting-shotImage') || DRIB.shotImage
-          , shotHeight = DRIB.shotHeight //make sure that the 
+          , shotHeight = DRIB.shotHeight //make sure that the
           , rendered
 
         for (var i = 0; i < shots.length; i++) {
@@ -1007,7 +1041,7 @@ DRIB_MODULE = (function(){
 
             //grab the selected image quality from model
             shots[i].image = shots[i][imageQuality]
-            
+
             //set the height of the shot based on the viewport and the choose grid size
             shots[i].shotHeight = shotHeight
 
@@ -1022,11 +1056,11 @@ DRIB_MODULE = (function(){
                     shots[i].categories = true
                 }
             }
-           
-            rendered = template( shots[i] ) 
+
+            rendered = template( shots[i] )
 
             // add shot to cache for favorite adding
-            DRIB.shotCache.push( shots[i] ) 
+            DRIB.shotCache.push( shots[i] )
 
             //im lazy...
             //create method to load all to string then append
@@ -1035,7 +1069,7 @@ DRIB_MODULE = (function(){
         DRIB.helper.trigger('lazyload')
     }
 
-    //ajax call to drab the shots from dribble api 
+    //ajax call to drab the shots from dribble api
     var grabShots = function(){
         //kill the pagination just in case its currently running, so scroll events
         //won't double up
@@ -1065,7 +1099,7 @@ DRIB_MODULE = (function(){
           , notFavorite = typeof _.find(currentShots, function(shot){ return shot.shotId === searchedShot }) === "undefined"
 
         shotElement.removeClass('unfavorited')
-        
+
         console.log('Checking for: '+ searchedShot )
         console.log(returnedShot)
 
@@ -1074,15 +1108,15 @@ DRIB_MODULE = (function(){
 
             clonedImg.prependTo(shotElement).addClass('clone')
 
-            clonedImg.bind('oanimationend animationend webkitAnimationEnd', function() { 
-               shotElement.removeClass('cloning').find('.clone').remove() 
+            clonedImg.bind('oanimationend animationend webkitAnimationEnd', function() {
+               shotElement.removeClass('cloning').find('.clone').remove()
                clonedImg.off()//stop casper!!! (ghost event...)
             });
 
             console.log('favorite is not there')
             DRIB.helper.trigger('shot/create', returnedShot)
         }
-      
+
         //check the current collection before adding to prevent duplication
         ////create pubsub and make handler for existing favorite
         ////make pubsub
@@ -1099,8 +1133,8 @@ DRIB_MODULE = (function(){
 
         shotElement.removeClass('favorited').addClass('unfavorited')
 
-        var model = DRIB.collections.shotCollection.findWhere({shotId: searchedShot}) 
-        
+        var model = DRIB.collections.shotCollection.findWhere({shotId: searchedShot})
+
         if (model === undefined){
             console.log('no such shot')
             return
@@ -1116,10 +1150,10 @@ DRIB_MODULE = (function(){
         var shotElement = $(this).parents('.shot')
           , searchedShot = shotElement.data('shotid')
 
-        var model = DRIB.collections.shotCollection.findWhere({shotId: searchedShot}) 
+        var model = DRIB.collections.shotCollection.findWhere({shotId: searchedShot})
 
-        DRIB.views.categoryModal = new CategoryModal({ 
-              modelInfo:model 
+        DRIB.views.categoryModal = new CategoryModal({
+              modelInfo:model
             , rawViewInfo:shotElement //send the el parent to change the el to unfavorite
         })
 
@@ -1132,10 +1166,10 @@ DRIB_MODULE = (function(){
 
 
         //if the grid is active show the modal opposed to moving the image
-        if ($('.grid').length > 0) { 
+        if ($('.grid').length > 0) {
             console.log('launch the modal')
             //check to see if its in the shot cache, if its not check the favorites
-            var info = _.findWhere(DRIB.shotCache, {id: searchedShot}) !== undefined 
+            var info = _.findWhere(DRIB.shotCache, {id: searchedShot}) !== undefined
                 ? _.findWhere(DRIB.shotCache, {id: searchedShot})
                 :  _.findWhere(DRIB.collections.shotCollection.toJSON(), {shotId: searchedShot})
 
@@ -1148,11 +1182,11 @@ DRIB_MODULE = (function(){
 
     var clickForOverlay = function(e, viewElement ) {
         //check to see if an el was passed from view first or was from raw shot
-        var el = viewElement || $(this) 
+        var el = viewElement || $(this)
           , shotElement = el.parents('.shot')
           , searchedShot = shotElement.data('shotid')
           , overlay = shotElement[0].querySelector('.shot-overlay')
-            
+
         var showOverlay = function(){
             //add overlay
             shotElement[0].classList.add('active-overlay')
@@ -1195,7 +1229,7 @@ DRIB_MODULE = (function(){
         };
     }
 
-    var eventHandles = function(){//clean up, in extremely sloppy 
+    var eventHandles = function(){//clean up, in extremely sloppy
         var container = $('.shot-container')
 
         //for when the grid is too small for the screen and the user isnt allowed to
@@ -1267,9 +1301,8 @@ DRIB_MODULE = (function(){
 //         success: function(data){
 //             // shot.attributes.likes = data.likes_count
 //             shot.attributes.comments = data.comments_count
-  
+
 //             shot.save()
 //         }
 //     });
 // })
-

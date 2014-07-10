@@ -6,6 +6,8 @@ head.js("lib/jquery-1.8.3.min.js"
 	, "lib/backbone-min.js"
 	, "lib/backbone.global.min.js"
 	, "lib/backbone.localstorage.js"
+	, "lib/react.js"
+	, "lib/react.backbone.js"
 	, "settings.js"
 	, "helpers.js"
 	, start);

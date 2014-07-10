@@ -193,11 +193,13 @@ DRIB.helper.on('notification', function( title, count ) {
     if( $('.notification') )  $('.notification').remove()
 
 
-    DRIB.views.headerView.$el.append( rendered )
+    // DRIB.views.headerView.$el.append( rendered )
+    var headerReact = $( DRIB.views.headerView.el() )
+    headerReact.append( rendered )
 
     //need to fix the padding on the main container to prevent the header
     //from cutting off the shots
-    mainContainer.css('padding-top', DRIB.views.headerView.$el.height()+30+'px')
+    mainContainer.css('padding-top', headerReact.height()+30+'px')
 
     notification = $('.notification')
     closeButton = notification.find('.notification-close')

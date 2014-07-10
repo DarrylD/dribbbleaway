@@ -1,7 +1,8 @@
 var connect = require('connect')
- , port = 8090
-connect.createServer(
-    connect.static(__dirname)
-).listen(port, function(){
-	console.log("Goto: http://localhost:"+port)
-});
+var serveStatic = require('serve-static')
+
+var app = connect()
+
+app.use(serveStatic(__dirname, {'index': ['index.html', 'default.htm']}))
+app.listen(3000)
+console.log('running')
