@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<!-- 
+<!--
     Thanks for being that interested inviewing the source on a mobile only app!
     You must be really interested :)
-    Anyway this is made by Darryl D. 
+    Anyway this is made by Darryl D.
     DarrylDexter.com
 -->
 <head>
@@ -17,6 +17,7 @@
 	<link rel="stylesheet" href="stylesheets/skeleton.css">
     <link rel="stylesheet" href="stylesheets/layout.css">
     <link href='http://fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet' type='text/css'>
+
 	<link rel="stylesheet" href="style.css">
 
 	<!--[if lt IE 9]>
@@ -37,8 +38,32 @@
       ga('send', 'pageview');
 
     </script>
+	<script src="http://fb.me/JSXTransformer-0.11.1.js"></script>
     <script src="lib/head.min.js"></script>
-	<script src="start.js"></script>
+	<!-- // <script src="start.js"></script> -->
+
+	     <script src="lib/jquery-1.8.3.min.js"></script>
+		 <script src="lib/underscore-min.js"></script>
+		 <script src="lib/backbone-min.js"></script>
+		 <script src="lib/backbone.global.min.js"></script>
+		 <script src="lib/backbone.localstorage.js"></script>
+		 <script src="lib/react.js"></script>
+		 <script src="lib/react.backbone.js"></script>
+		 <script src="settings.js"></script>
+		 <script src="helpers.js"></script>
+
+		 <script>
+            $.get('templates/templates.html', function(data) {
+				$('body').append(data)
+				//load the application
+				// head.load("site.js")
+			});
+        </script>
+
+		<script type="text/jsx" src="site.js"></script>
+
+
+
 </head>
 <body>
     <!-- landing page -->

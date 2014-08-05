@@ -1,3 +1,5 @@
+/** @jsx React.DOM */
+
 DRIB_MODULE = (function(){
 
     var Shot = Backbone.Model.extend({
@@ -96,7 +98,7 @@ DRIB_MODULE = (function(){
 
             //helper avaiable and should consider using it, but may be less expensive
             //to no use it
-            DRIB.views.categoryModal = new CategoryModal({ 
+            DRIB.views.categoryModal = new CategoryModal({
                   modelInfo:this.model //send the info of the model
                 , viewInfo : this //with the view info
             })
@@ -141,30 +143,20 @@ DRIB_MODULE = (function(){
             // this.stickyHeader()
 
             // return this //awe shit, we chaniable
-            return React.DOM.div({className: "header-row header-top"}, [
-		           		React.DOM.div({className: "mobile-menu left setting-menu-panel", onClick: this.SettingTogglePanel},  [
-		           			React.DOM.span({className: "icon-menu"})
-		           
+            // return <div className="header-row">fdfwwfde</div>;
 
-		            	]),
+            return  <div className="header-row header-top">
+                        <div className="mobile-menu left setting-menu-panel" onClick={this.SettingTogglePanel}>
+                            <span className="icon-menu"></span>
+                        </div>
+                        <div className="title-container">
+                            <h1 className="page-title" data-shadow-text="Dribbble Away">Dribbble Away</h1>
+                        </div>
+                        <div className="mobile-menu right category-menu-panel" onClick={this.CategoryTogglePanel}>
+                            <span className="icon-drawer"></span>
+                        </div>
+                    </div>;
 
-		            	React.DOM.div({className: "title-container"}, [
-		           			React.DOM.h1({className: "page-title"}, 'Dribbble Away')
-		           
-
-		            	]),
-
-		            	React.DOM.div({className: "mobile-menu right category-menu-panel", onClick: this.CategoryTogglePanel},  [
-		           			React.DOM.span({className: "icon-drawer"})
-		           
-
-		            	])
-		        	],
-		        	React.DOM.div({className: "header-row header-bottom"},[
-		        		React.DOM.div({className: "search-container"})
-
-		        	])
-		        )
         },
         CategoryTogglePanel: function(){
              Backbone.trigger('panel/toggle/category');

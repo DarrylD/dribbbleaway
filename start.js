@@ -18,6 +18,6 @@ function start() {
 	$.get('templates/templates.html', function(data) {
 		$('body').append(data)
 		//load the application
-		head.load("site.js")
+		head.load("site.jsx")
 	});
 }
